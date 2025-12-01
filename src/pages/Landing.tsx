@@ -29,13 +29,20 @@ import {
   BadgeCheck
 } from "lucide-react";
 
+
 const Landing = () => {
-  const [mode, setMode] = useState<"institution" | "personal">("institution");
+  const [mode, setMode] = useState<"institution" | "personal">("personal");
   const navigate = useNavigate();
 
+
   const handleGetStarted = () => {
+    navigate(mode === "institution" ? "/institution/login" : "/personal/signup");
+  };
+
+  const handleSignUp = () => {
     navigate(mode === "institution" ? "/institution/login" : "/personal/login");
   };
+
 
   return (
     <div className="min-h-screen bg-gradient-dark relative overflow-hidden">
@@ -45,6 +52,7 @@ const Landing = () => {
         <div className="absolute w-96 h-96 bg-personal/10 rounded-full blur-3xl bottom-20 -right-20 animate-float" style={{ animationDelay: "1s" }} />
       </div>
 
+
       {/* Header */}
       <header className="relative z-10 container mx-auto px-4 py-6 flex justify-between items-center">
         <div className="px-6 py-3 bg-card/30 backdrop-blur-sm border border-border/50 rounded-full">
@@ -52,6 +60,7 @@ const Landing = () => {
         </div>
         <ModeToggle mode={mode} onChange={setMode} />
       </header>
+
 
       {/* Hero Section */}
       <main className="relative z-10 container mx-auto px-4 py-12 md:py-20">
@@ -75,11 +84,13 @@ const Landing = () => {
               </h2>
             </div>
 
+
             <p className="text-lg text-muted-foreground max-w-xl">
               {mode === "institution"
                 ? "Empower your institution with master timetables, teacher task management, and seamless verification workflows."
                 : "Transform your learning journey with AI-powered study planning, progress tracking, and intelligent schedule correction."}
             </p>
+
 
             <div className="flex flex-wrap gap-4">
               <Button
@@ -98,10 +109,12 @@ const Landing = () => {
                 size="lg"
                 variant="outline"
                 className="border-border hover:bg-card/50"
+                onClick={handleSignUp}
               >
                 {mode === "institution" ? "Request Demo" : "Sign Up"}
               </Button>
             </div>
+
 
             {/* Stats */}
             <div className="grid grid-cols-3 gap-8 pt-8">
@@ -110,6 +123,7 @@ const Landing = () => {
               <StatCard value="98%" label="Satisfaction" />
             </div>
           </div>
+
 
           {/* Right Content - Preview Cards */}
           <div className="space-y-6 animate-slide-up">
@@ -137,6 +151,7 @@ const Landing = () => {
               </div>
             </GlassCard>
 
+
             {/* Card 2 */}
             <GlassCard hover className="ml-12 animate-float" style={{ animationDelay: "0.5s" }}>
               <div className="flex items-start gap-4">
@@ -160,6 +175,7 @@ const Landing = () => {
                 </div>
               </div>
             </GlassCard>
+
 
             {/* Card 3 */}
             <GlassCard hover className="animate-float" style={{ animationDelay: "1s" }}>
@@ -188,6 +204,7 @@ const Landing = () => {
         </div>
       </main>
 
+
       {/* Features Section */}
       <section className="relative z-10 container mx-auto px-4 py-20">
         <div className="text-center mb-12 animate-fade-in">
@@ -198,6 +215,7 @@ const Landing = () => {
             Everything you need to manage schedules, tasks, and workflows across your institution.
           </p>
         </div>
+
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 animate-slide-up">
           <FeatureCard
@@ -227,6 +245,7 @@ const Landing = () => {
         </div>
       </section>
 
+
       {/* How It Works Section */}
       <section className="relative z-10 container mx-auto px-4 py-20">
         <div className="text-center mb-12">
@@ -237,6 +256,7 @@ const Landing = () => {
             How It Works
           </h2>
         </div>
+
 
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           <StepCard
@@ -262,6 +282,7 @@ const Landing = () => {
           />
         </div>
 
+
         <div className="text-center mt-12">
           <Button
             size="lg"
@@ -277,6 +298,7 @@ const Landing = () => {
         </div>
       </section>
 
+
       {/* Security Section */}
       <section className="relative z-10 container mx-auto px-4 py-20">
         <div className="text-center mb-12">
@@ -288,6 +310,7 @@ const Landing = () => {
           </p>
         </div>
 
+
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-12">
           <SecurityCard icon={Lock} title="End-to-End Encryption" mode={mode} />
           <SecurityCard icon={Key} title="JWT Authentication" mode={mode} />
@@ -296,6 +319,7 @@ const Landing = () => {
           <SecurityCard icon={FileCheck} title="Audit Logging" mode={mode} />
           <SecurityCard icon={BadgeCheck} title="GDPR Compliant" mode={mode} />
         </div>
+
 
         <div className="flex flex-wrap justify-center gap-8">
           {["ISO 27001", "SOC 2", "GDPR", "256-bit Encryption"].map((badge) => (
@@ -306,9 +330,11 @@ const Landing = () => {
         </div>
       </section>
 
+
       <Footer />
     </div>
   );
 };
+
 
 export default Landing;
