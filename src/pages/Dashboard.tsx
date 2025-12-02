@@ -9,13 +9,41 @@ import { Badge } from "@/components/ui/badge";
 import { Calendar, Clock, CheckCircle2, AlertCircle, TrendingUp } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 
-const Dashboard = () => {
-  // Get mode and role from authenticated user - fixed based on login
+type DashboardMode = "institution" | "personal";
+
+interface DashboardProps {
+  forcedMode?: DashboardMode;
+}
+
+const Dashboard: React.FC<DashboardProps> = ({ forcedMode }) => {
+  // Get mode and role from authenticated user
   const { mode, role } = useAuth();
   const userRole = role || "student";
-  
-  // Fallback to institution if mode is somehow null (shouldn't happen due to ProtectedRoute)
-  const dashboardMode = mode || "institution";
+
+  // Decide dashboard mode:
+  // 1. If a mode is forced by the route, use it
+  // 2. Else, use AuthContext mode (for institution demo login)
+  // 3. Else, infer from stored user (for personal login)
+  // 4. Fallback to "institution"
+  let dashboardMode: DashboardMode = "institution";
+
+  if (forcedMode === "institution" || forcedMode === "personal") {
+    dashboardMode = forcedMode;
+  } else if (mode === "institution" || mode === "personal") {
+    dashboardMode = mode;
+  } else if (typeof window !== "undefined") {
+    try {
+      const stored = localStorage.getItem("edulytics_user");
+      if (stored) {
+        const user = JSON.parse(stored);
+        if (user?.account_type === "personal") {
+          dashboardMode = "personal";
+        }
+      }
+    } catch {
+      // ignore JSON errors, keep default
+    }
+  }
 
   return (
     <div className="min-h-screen bg-gradient-dark relative overflow-hidden">

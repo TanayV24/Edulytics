@@ -22,7 +22,7 @@ const InstitutionLogin = () => {
       setError("Invalid demo credentials");
       return;
     }
-    navigate("/dashboard");
+    navigate("/institution/dashboard");
   };
 
   return (
@@ -80,23 +80,20 @@ const InstitutionLogin = () => {
                 </div>
               </div>
 
-              <button
-                type="button"
-                className="text-sm text-muted-foreground hover:text-institution transition-colors"
-              >
-                Forgot Password?
-              </button>
+              {error && (
+                <p className="text-sm text-red-500 mt-1">{error}</p>
+              )}
 
               <Button
                 type="submit"
                 className="w-full bg-gradient-to-r from-institution to-institution-glow hover:opacity-90 transition-opacity shadow-lg shadow-institution/30"
                 size="lg"
               >
-                Log In
+                Log In to Institution
               </Button>
             </form>
 
-            <div className="mt-6 text-center">
+            <div className="mt-6 text-center space-y-3">
               <button
                 onClick={() => navigate("/")}
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -106,45 +103,26 @@ const InstitutionLogin = () => {
             </div>
           </GlassCard>
 
-          {/* Right - Preview Cards */}
-          <div className="space-y-6 animate-slide-up hidden lg:block">
-            {/* Master Timetable Card */}
+          {/* Right - Stats & Preview */}
+          <div className="space-y-6">
+            {/* Utilization Card */}
             <GlassCard hover>
-              <div className="flex items-start gap-4">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <p className="text-sm text-muted-foreground">Timetable Utilization</p>
+                  <p className="text-2xl font-bold text-foreground">89%</p>
+                </div>
                 <div className="p-3 rounded-2xl bg-institution/20">
                   <Calendar className="w-6 h-6 text-institution" />
                 </div>
-                <div className="flex-1">
-                  <h3 className="font-semibold text-foreground mb-1">Master Timetable</h3>
-                  <p className="text-sm text-muted-foreground mb-4">Active Now</p>
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-3">
-                      <div className="w-1 h-12 bg-institution rounded-full" />
-                      <div className="flex-1 space-y-2">
-                        <div className="h-3 bg-muted rounded-full w-4/5" />
-                        <div className="h-2 bg-muted rounded-full w-3/5" />
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="w-1 h-12 bg-institution rounded-full" />
-                      <div className="flex-1 space-y-2">
-                        <div className="h-3 bg-muted rounded-full w-3/4" />
-                        <div className="h-2 bg-muted rounded-full w-2/5" />
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="w-1 h-12 bg-institution rounded-full" />
-                      <div className="flex-1 space-y-2">
-                        <div className="h-3 bg-muted rounded-full w-full" />
-                        <div className="h-2 bg-muted rounded-full w-1/2" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </div>
+              <ProgressBar value={89} />
+              <p className="text-xs text-muted-foreground mt-2">
+                Based on active sessions across all departments this week.
+              </p>
             </GlassCard>
 
-            {/* Teacher Network Card */}
+            {/* Network Card */}
             <GlassCard hover>
               <div className="flex items-start gap-4">
                 <div className="p-3 rounded-2xl bg-institution/20">
