@@ -1,0 +1,26 @@
+# --- Web framework & server ---
+fastapi
+uvicorn[standard]
+
+# --- Data validation ---
+pydantic==2.*
+
+# --- Database & migrations ---
+SQLAlchemy
+psycopg2-binary
+alembic
+
+# --- Auth, security, passwords ---
+python-jose[cryptography]
+passlib[bcrypt]
+python-multipart
+
+# --- Environment variables ---
+python-dotenv
+
+# --- HTTP client & AI integration (future AI agent) ---
+httpx
+openai
+
+# --- Optional: utilities you’ll probably use later ---
+python-dateutil
