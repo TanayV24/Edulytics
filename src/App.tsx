@@ -7,6 +7,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Landing from "./pages/Landing";
 import Dashboard from "./pages/Dashboard";
+import PersonalDashboard from "./pages/PersonalDashboard";
+import InstitutionDashboard from "./pages/InstitutionDashboard";
 import Calendar from "./pages/Calendar";
 import Tasks from "./pages/Tasks";
 import Timetable from "./pages/Timetable";
@@ -60,6 +62,8 @@ const App = () => {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Landing />} />
+
+              {/* Unified /dashboard (kept for compatibility) */}
               <Route
                 path="/dashboard"
                 element={
@@ -68,6 +72,25 @@ const App = () => {
                   </ProtectedRoute>
                 }
               />
+
+              {/* Explicit personal & institution dashboards */}
+              <Route
+                path="/personal/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <PersonalDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/institution/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <InstitutionDashboard />
+                  </ProtectedRoute>
+                }
+              />
+
               <Route
                 path="/calendar"
                 element={
@@ -116,9 +139,11 @@ const App = () => {
                   </ProtectedRoute>
                 }
               />
+
               <Route path="/institution/login" element={<InstitutionLogin />} />
               <Route path="/personal/login" element={<PersonalLogin />} />
               <Route path="/personal/signup" element={<PersonalSignup />} />
+
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
