@@ -1,10 +1,25 @@
 # app/db.py
+import os
+from dotenv import load_dotenv
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 
-from app.config import DATABASE_URL
+# Load .env file from the backend directory
+load_dotenv()
 
-engine = create_engine(DATABASE_URL)
+SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL")
+
+if not SQLALCHEMY_DATABASE_URL:
+    raise RuntimeError("DATABASE_URL environment variable is not set")
+
+# Supabase session pooler friendly settings
+engine = create_engine(
+    SQLALCHEMY_DATABASE_URL,
+    pool_pre_ping=True,  # check connections before using
+    pool_size=5,         # small pool, good for Supabase pooler
+    max_overflow=0,
+)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 

@@ -11,10 +11,12 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 
 @router.post("/register", response_model=schemas.UserRead, status_code=status.HTTP_201_CREATED)
 def register_user(user_in: schemas.UserCreate, db: Session = Depends(get_db)):
+    # Check if email already exists
     existing = db.query(models.User).filter(models.User.email == user_in.email).first()
     if existing:
         raise HTTPException(status_code=400, detail="Email already registered")
 
+    # Hash password
     hashed_password = get_password_hash(user_in.password)
 
     user = models.User(
@@ -22,6 +24,7 @@ def register_user(user_in: schemas.UserCreate, db: Session = Depends(get_db)):
         email=user_in.email,
         mobile_number=user_in.mobile_number,
         password_hash=hashed_password,
+        account_type=user_in.account_type or "personal",
     )
     db.add(user)
     db.commit()

@@ -1,9 +1,10 @@
 # app/config.py
 import os
-from dotenv import load_dotenv
 from datetime import timedelta
 
-load_dotenv()  # loads .env file
+from dotenv import load_dotenv
+
+load_dotenv()  # loads variables from .env
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 

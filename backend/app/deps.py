@@ -1,19 +1,29 @@
 # app/deps.py
-from typing import Generator, Optional
-from uuid import UUID
+from typing import Generator
+from datetime import datetime, timedelta
 
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
-from sqlalchemy.orm import Session
 from jose import JWTError, jwt
-from passlib.context import CryptContext
+from sqlalchemy.orm import Session
 
 from app.db import SessionLocal
-from app import models, schemas
-from app.config import JWT_SECRET_KEY, JWT_ALGORITHM, get_access_token_expires_delta
+from app import models
+import bcrypt
 
+# =======================
+# CONFIG
+# =======================
 
-# ---------- DB Dependency ----------
+SECRET_KEY = "CHANGE_THIS_TO_SOMETHING_SECRET"
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24  # 24 hours
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
+
+# =======================
+# DB DEPENDENCY
+# =======================
 
 def get_db() -> Generator[Session, None, None]:
     db = SessionLocal()
@@ -22,36 +32,33 @@ def get_db() -> Generator[Session, None, None]:
     finally:
         db.close()
 
+# =======================
+# PASSWORD UTILS (only bcrypt)
+# =======================
 
-# ---------- Password Hashing ----------
-
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+def get_password_hash(password: str) -> str:
+    return bcrypt.hashpw(
+        password.encode("utf-8"),
+        bcrypt.gensalt(),
+    ).decode("utf-8")
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return pwd_context.verify(plain_password, hashed_password)
+    return bcrypt.checkpw(
+        plain_password.encode("utf-8"),
+        hashed_password.encode("utf-8"),
+    )
 
+# =======================
+# TOKEN UTILS
+# =======================
 
-def get_password_hash(password: str) -> str:
-    return pwd_context.hash(password)
-
-
-# ---------- JWT Token Utils ----------
-
-def create_access_token(data: dict) -> str:
-    from datetime import datetime, timezone
-
+def create_access_token(data: dict, expires_delta: timedelta | None = None) -> str:
     to_encode = data.copy()
-    expire_delta = get_access_token_expires_delta()
-    expire = datetime.now(timezone.utc) + expire_delta
+    expire = datetime.utcnow() + (expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
     to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, JWT_SECRET_KEY, algorithm=JWT_ALGORITHM)
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
-
-
-# ---------- Current User Dependency ----------
-
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
 
 def get_current_user(
@@ -60,20 +67,19 @@ def get_current_user(
 ) -> models.User:
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials.",
+        detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
 
     try:
-        payload = jwt.decode(token, JWT_SECRET_KEY, algorithms=[JWT_ALGORITHM])
-        user_id: Optional[str] = payload.get("sub")
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        user_id: str | None = payload.get("sub")
         if user_id is None:
             raise credentials_exception
-        token_data = schemas.TokenData(user_id=UUID(user_id))
-    except (JWTError, ValueError):
+    except JWTError:
         raise credentials_exception
 
-    user = db.query(models.User).filter(models.User.id == token_data.user_id).first()
+    user = db.query(models.User).filter(models.User.id == user_id).first()
     if user is None:
         raise credentials_exception
     return user
