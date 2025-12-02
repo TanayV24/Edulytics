@@ -1,5 +1,5 @@
 # app/models.py
-from sqlalchemy import Column, String, DateTime, ForeignKey, text, Integer
+from sqlalchemy import Column, String, DateTime, ForeignKey, text, Integer, Boolean
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
@@ -174,3 +174,63 @@ class TaskSession(Base):
 
     task = relationship("Task", back_populates="sessions")
     user = relationship("User", back_populates="task_sessions")
+
+class Admin(Base):
+    """Admin users for admin dashboard"""
+    __tablename__ = "admins"
+    
+    id = Column(
+        UUID(as_uuid=True),
+        primary_key=True,
+        index=True,
+        server_default=text("gen_random_uuid()"),
+    )
+    
+    email = Column(String, unique=True, index=True, nullable=False)
+    password_hash = Column(String, nullable=False)
+    name = Column(String, nullable=False)
+    
+    # For institution admins: institution_id is set
+    # For developer admins: institution_id is NULL
+    institution_id = Column(
+        UUID(as_uuid=True),
+        ForeignKey("institutions.id", ondelete="CASCADE"),
+        nullable=True,
+    )
+    
+    is_active = Column(Boolean, default=True, nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    updated_at = Column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        onupdate=func.now(),
+        nullable=False,
+    )
+    
+    institution = relationship("Institution", foreign_keys=[institution_id])
+
+
+class StudentTeacher(Base):
+    """Junction table for student-teacher relationships"""
+    __tablename__ = "student_teacher"
+    
+    id = Column(
+        UUID(as_uuid=True),
+        primary_key=True,
+        index=True,
+        server_default=text("gen_random_uuid()"),
+    )
+    
+    student_id = Column(
+        UUID(as_uuid=True),
+        ForeignKey("users.id", ondelete="CASCADE"),
+        nullable=False,
+    )
+    
+    teacher_id = Column(
+        UUID(as_uuid=True),
+        ForeignKey("users.id", ondelete="CASCADE"),
+        nullable=False,
+    )
+    
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
