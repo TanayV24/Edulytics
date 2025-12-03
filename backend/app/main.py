@@ -1,10 +1,10 @@
 # app/main.py
-# Updated to include admin router
+# Updated to include admin and goal routers
 
 from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from app.db import engine, Base
-from app.routers import auth, courses, institutions, tasks, admin
+from app.routers import auth, courses, institutions, tasks, admin, goal  # 👈 added goal
 
 Base.metadata.create_all(bind=engine)
 
@@ -14,7 +14,7 @@ ALLOWED_ORIGINS = {
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "http://localhost:8081",
-    "http://127.0.0.1:8081"
+    "http://127.0.0.1:8081",
 }
 
 @app.middleware("http")
@@ -39,7 +39,8 @@ app.include_router(auth.router)
 app.include_router(courses.router)
 app.include_router(institutions.router)
 app.include_router(tasks.router)
-app.include_router(admin.router)  # NEW
+app.include_router(admin.router)   # existing admin router
+app.include_router(goal.router)   # 👈 NEW: AI Goal Understanding endpoints
 
 @app.get("/")
 def read_root():
