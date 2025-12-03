@@ -32,6 +32,9 @@ import DeveloperAdminDashboard from "./pages/DeveloperAdminDashboard";
 import AdminProtectedRoute from "./routes/AdminProtectedRoute";
 import DeveloperProtectedRoute from "./routes/DeveloperProtectedRoute";
 
+// ===== AI GOAL PAGE IMPORT (NEW) =====
+import GoalUnderstandingPage from "./pages/GoalUnderstandingPage";
+
 const queryClient = new QueryClient();
 
 const App = () => {
@@ -51,7 +54,8 @@ const App = () => {
       }
     } else {
       // Check system preference
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)")
+        .matches;
       if (prefersDark) {
         htmlElement.classList.remove("light");
         htmlElement.classList.add("dark");
@@ -74,7 +78,10 @@ const App = () => {
                 <Route path="/" element={<Landing />} />
 
                 {/* ===== EXISTING LOGIN ROUTES ===== */}
-                <Route path="/institution/login" element={<InstitutionLogin />} />
+                <Route
+                  path="/institution/login"
+                  element={<InstitutionLogin />}
+                />
                 <Route path="/personal/login" element={<PersonalLogin />} />
                 <Route path="/personal/signup" element={<PersonalSignup />} />
 
@@ -124,7 +131,10 @@ const App = () => {
                 />
 
                 {/* Developer Entry Point (with trap) */}
-                <Route path="/admin/developer/entry" element={<DeveloperTrap />} />
+                <Route
+                  path="/admin/developer/entry"
+                  element={<DeveloperTrap />}
+                />
                 <Route path="/admin/developer" element={<DeveloperTrap />} />
 
                 {/* Developer Admin Dashboard */}
@@ -188,6 +198,16 @@ const App = () => {
                   element={
                     <ProtectedRoute>
                       <Settings />
+                    </ProtectedRoute>
+                  }
+                />
+
+                {/* ===== AI GOAL UNDERSTANDING ROUTE (NEW) ===== */}
+                <Route
+                  path="/ai/goal"
+                  element={
+                    <ProtectedRoute>
+                      <GoalUnderstandingPage />
                     </ProtectedRoute>
                   }
                 />
