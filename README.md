@@ -1,73 +1,113 @@
-# Welcome to your Lovable project
+<div align="center">
 
-## Project info
+# 🎓 Edulytics
 
-**URL**: https://lovable.dev/projects/14d18778-2db0-403a-ae8a-6dfe692e76a6
+### Data-Driven Educational Analytics Platform
 
-## How can I edit this code?
+![Python](https://img.shields.io/badge/Backend-Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Flask](https://img.shields.io/badge/API-Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
+![Data](https://img.shields.io/badge/Data-Analysis-Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)
+![Chart.js](https://img.shields.io/badge/Visualization-Chart.js-21A0E0?style=for-the-badge)
 
-There are several ways of editing your application.
+**An analytics platform for educational data — helping institutions & educators visualize student performance, attendance, and trends to make data-driven decisions.**
 
-**Use Lovable**
+[📖 Documentation](#features) | [🐛 Report Bug](https://github.com/TanayV24/Edulytics/issues) | [💡 Request Feature](https://github.com/TanayV24/Edulytics/issues)
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/14d18778-2db0-403a-ae8a-6dfe692e76a6) and start prompting.
+</div>
 
-Changes made via Lovable will be committed automatically to this repo.
+---
 
-**Use your preferred IDE**
+## ✨ Features
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### 📊 Analytics & Insights
+- 📈 **Performance Charts** — Visual graphs for test scores, subject-wise averages  
+- 🧮 **Aggregate Metrics** — Class average, pass/fail rates, grade distributions  
+- 📋 **Attendance & Participation Reports** — Track attendance, engagement over time  
+- 🕒 **Trend Analysis** — Identify patterns in performance over semesters/terms  
+- 🔍 **Filter & Search** — Filter data by class, subject, date, student — easy exploration  
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### 🔧 Admin & Management Tools
+- 👩‍🏫 **User Management** — Add/remove students, teachers, administrators  
+- 📝 **Data Import / Upload** — CSV / Excel upload for bulk student / exam data  
+- 📥 **Export Reports** — Download reports as PDF/CSV for offline review  
+- 🔐 **Secure API Backend** — RESTful API to handle data securely and efficiently  
+- 📡 **Modular Architecture** — Easy to extend (e.g. add feedback, assignments, notifications)  
 
-Follow these steps:
+---
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## 🛠 Tech Stack
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+| Layer       | Technology Used             |
+|-------------|-----------------------------|
+| Backend     | Python, Flask, Pandas       |
+| Data Storage| JSON / CSV / (Optional DB)  |
+| Frontend    | HTML, CSS, JS (Chart.js)    |
+| Visualization | Chart.js or equivalent     |
+| API         | RESTful via Flask           |
 
-# Step 3: Install the necessary dependencies.
-npm i
+---
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+## 📋 Prerequisites
 
-**Edit a file directly in GitHub**
+- 🐍 Python 3.8+  
+- 📦 Pip (Python package installer)  
+- (Optional) Virtual environment for Python  
+- Git  
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+---
 
-**Use GitHub Codespaces**
+## ⚙️ Installation & Setup
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```bash
+git clone https://github.com/TanayV24/Edulytics.git
+cd Edulytics
+pip install -r requirements.txt
+python app.py
+````
 
-## What technologies are used for this project?
+> The backend server will start (by default on `http://localhost:5000`).
 
-This project is built with:
+Then open your browser and navigate to the front-end page (e.g. `index.html`) or use API endpoints to feed data / fetch analysis results.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+---
 
-## How can I deploy this project?
+## 🎯 Usage Example
 
-Simply open [Lovable](https://lovable.dev/projects/14d18778-2db0-403a-ae8a-6dfe692e76a6) and click on Share -> Publish.
+1. Prepare student/exam/attendance data in CSV or JSON format
+2. Upload data via the upload interface or place in the designated data folder
+3. Use the dashboard to view analytics — charts, class performance, trend reports
+4. Filter by class, subject or date to narrow data
+5. Export reports as CSV or PDF for records or sharing
 
-## Can I connect a custom domain to my Lovable project?
+---
 
-Yes, you can!
+## 🐛 Troubleshooting & Tips
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+<details>
+<summary>No data showing or blank charts</summary>
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+* Ensure the data file is properly formatted (headers, numeric types)
+* Restart backend server after data upload
+* Check the browser console for any JS/Chart.js errors
+
+</details>
+
+<details>
+<summary>Error while importing CSV / Excel</summary>
+
+* Validate file encoding (use UTF-8)
+* Ensure required columns (e.g. student_id, subject, marks) are present
+* Remove special characters or inconsistent separators
+
+</details>
+
+<details>
+<summary>Charts not rendering correctly</summary>
+
+* Confirm data arrays passed to Chart.js are valid (no null or undefined values)
+* Refresh/clear cache after updates
+* Ensure frontend JS dependencies are correctly loaded
+
+</details>
+
+---
