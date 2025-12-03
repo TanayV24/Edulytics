@@ -151,3 +151,67 @@ class InstitutionUserRead(BaseModel):
 
 class InstitutionMemberships(BaseModel):
     memberships: List[InstitutionUserRead]
+
+
+# ---------- Admin Schemas ----------
+
+class AdminBase(BaseModel):
+    name: str
+    email: EmailStr
+    institution_id: Optional[UUID] = None
+
+class AdminCreate(AdminBase):
+    password: str = Field(min_length=6)
+
+class AdminLoginRequest(BaseModel):
+    email: EmailStr
+    password: str
+
+class AdminResponse(BaseModel):
+    id: UUID
+    name: str
+    email: str
+    role: str  # "developer_admin" or "institution_admin"
+    institution_id: Optional[UUID] = None
+    institution_name: Optional[str] = None
+    created_at: datetime
+    
+    model_config = ConfigDict(from_attributes=True)
+
+class AdminLoginResponse(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+    admin: AdminResponse
+
+class AddUserRequest(BaseModel):
+    email: EmailStr
+    mobile_number: str
+    institution_id: UUID
+    user_id: str  # unique ID within institution
+    role: str  # "student" or "teacher"
+
+class AssignStudentsRequest(BaseModel):
+    teacher_id: UUID
+    student_ids: List[UUID]
+
+class TeacherResponse(BaseModel):
+    id: UUID
+    name: Optional[str]
+    email: str
+    
+    model_config = ConfigDict(from_attributes=True)
+
+class StudentResponse(BaseModel):
+    id: UUID
+    name: Optional[str]
+    email: str
+    
+    model_config = ConfigDict(from_attributes=True)
+
+class InstitutionResponse(BaseModel):
+    id: UUID
+    name: str
+    code: Optional[str] = None
+    created_at: datetime
+    
+    model_config = ConfigDict(from_attributes=True)
