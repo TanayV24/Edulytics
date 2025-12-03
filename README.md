@@ -6,12 +6,11 @@
 
 ![Python](https://img.shields.io/badge/Backend-Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Flask](https://img.shields.io/badge/API-Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
-![Data](https://img.shields.io/badge/Data-Analysis-Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)
 ![Chart.js](https://img.shields.io/badge/Visualization-Chart.js-21A0E0?style=for-the-badge)
 
 **An analytics platform for educational data — helping institutions & educators visualize student performance, attendance, and trends to make data-driven decisions.**
 
-[📖 Documentation](#features) | [🐛 Report Bug](https://github.com/TanayV24/Edulytics/issues) | [💡 Request Feature](https://github.com/TanayV24/Edulytics/issues)
+[🐛 Report Bug](https://github.com/TanayV24/Edulytics/issues) | [💡 Request Feature](https://github.com/TanayV24/Edulytics/issues)
 
 </div>
 
